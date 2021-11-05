@@ -156,40 +156,43 @@
 <p>I wanted to see if I could get them to have more complex behaviour, and one thing I was really interested in trying was to get them to sync to my current playing song on Spotify.</p>
 <p>I went about trying to do this, and found some code for developers on the Yeelight website that can do things like toggle lights on and off, change brightness...</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">operate_on_bulb</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
-  <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">  Operate on bulb; no gurantee of success.</span>
-<span class="sd">  Input data &#39;params&#39; must be a compiled into one string.</span>
-<span class="sd">  E.g. params=&quot;1&quot;; params=&quot;\&quot;smooth\&quot;&quot;, params=&quot;1,\&quot;smooth\&quot;,80&quot;</span>
-<span class="sd">  &#39;&#39;&#39;</span>
-  <span class="k">if</span> <span class="ow">not</span> <span class="n">bulb_idx2ip</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span>
-    <span class="nb">print</span> <span class="s2">&quot;error: invalid bulb idx&quot;</span>
-    <span class="k">return</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Operate on bulb; no gurantee of success.</span>
+<span class="sd">    Input data &#39;params&#39; must be a compiled into one string.</span>
+<span class="sd">    E.g. params=&quot;1&quot;; params=&quot;\&quot;smooth\&quot;&quot;, params=&quot;1,\&quot;smooth\&quot;,80&quot;</span>
+<span class="sd">    &#39;&#39;&#39;</span>
 
-  <span class="n">bulb_ip</span><span class="o">=</span><span class="n">bulb_idx2ip</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
-  <span class="nb">print</span><span class="p">(</span><span class="n">bulb_ip</span><span class="p">)</span>
-  <span class="n">port</span><span class="o">=</span><span class="n">detected_bulbs</span><span class="p">[</span><span class="n">bulb_ip</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span>
-  <span class="k">try</span><span class="p">:</span>
-    <span class="n">tcp_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
-    <span class="nb">print</span> <span class="s2">&quot;connect &quot;</span><span class="p">,</span><span class="n">bulb_ip</span><span class="p">,</span> <span class="n">port</span> <span class="p">,</span><span class="s2">&quot;...&quot;</span>
-    <span class="n">tcp_socket</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="n">bulb_ip</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">port</span><span class="p">)))</span>
-    <span class="n">msg</span><span class="o">=</span><span class="s2">&quot;{</span><span class="se">\&quot;</span><span class="s2">id</span><span class="se">\&quot;</span><span class="s2">:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">next_cmd_id</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;,</span><span class="se">\&quot;</span><span class="s2">method</span><span class="se">\&quot;</span><span class="s2">:</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
-    <span class="n">msg</span> <span class="o">+=</span> <span class="n">method</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">,</span><span class="se">\&quot;</span><span class="s2">params</span><span class="se">\&quot;</span><span class="s2">:[&quot;</span> <span class="o">+</span> <span class="n">params</span> <span class="o">+</span> <span class="s2">&quot;]}</span><span class="se">\r\n</span><span class="s2">&quot;</span>
-    <span class="n">tcp_socket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-    <span class="n">tcp_socket</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-  <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span> <span class="s2">&quot;Unexpected error:&quot;</span><span class="p">,</span> <span class="n">e</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">bulb_idx2ip</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span>
+        <span class="nb">print</span> <span class="s2">&quot;error: invalid bulb idx&quot;</span>
+        <span class="k">return</span>
+
+    <span class="n">bulb_ip</span><span class="o">=</span><span class="n">bulb_idx2ip</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">bulb_ip</span><span class="p">)</span>
+    <span class="n">port</span><span class="o">=</span><span class="n">detected_bulbs</span><span class="p">[</span><span class="n">bulb_ip</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">tcp_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+        <span class="nb">print</span> <span class="s2">&quot;connect &quot;</span><span class="p">,</span><span class="n">bulb_ip</span><span class="p">,</span> <span class="n">port</span> <span class="p">,</span><span class="s2">&quot;...&quot;</span>
+        <span class="n">tcp_socket</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="n">bulb_ip</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">port</span><span class="p">)))</span>
+        <span class="n">msg</span><span class="o">=</span><span class="s2">&quot;{</span><span class="se">\&quot;</span><span class="s2">id</span><span class="se">\&quot;</span><span class="s2">:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">next_cmd_id</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;,</span><span class="se">\&quot;</span><span class="s2">method</span><span class="se">\&quot;</span><span class="s2">:</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="n">method</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">,</span><span class="se">\&quot;</span><span class="s2">params</span><span class="se">\&quot;</span><span class="s2">:[&quot;</span> <span class="o">+</span> <span class="n">params</span> <span class="o">+</span> <span class="s2">&quot;]}</span><span class="se">\r\n</span><span class="s2">&quot;</span>
+        <span class="n">tcp_socket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="n">tcp_socket</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span> <span class="s2">&quot;Unexpected error:&quot;</span><span class="p">,</span> <span class="n">e</span>
 </code></pre></div>
 
 <p>The code uses this operate_on_bulb function, and needs to be sent with my computer on the same Wifi network that my bulbs are connected to. When you run the code you are able to list the available bulbs that you are connected to, and each bulb receives an index starting at 1. A function is given that uses this operate_on_bulb function that can change the brightness of lights:</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">set_bright</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">bright</span><span class="p">):</span>
-  <span class="n">operate_on_bulb</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="s2">&quot;set_bright&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">bright</span><span class="p">))</span>
+    <span class="n">operate_on_bulb</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="s2">&quot;set_bright&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">bright</span><span class="p">))</span>
 </code></pre></div>
 
 <p>So for example I can use set_bright(1, 50) to change the bulb with 1st index to 50% brightness. With some reading of the "Yeelight WiFi Light Inter-Operation Specification" (say that 5 times fast) I figured out that with some minor tweaking you can get the code to change bulb colour. The colour must be passed in decimal format, so this can be translated from the more readable hex code representation rather easily using Python's native int function.</p>
 <p>My function for changing colour is below (forgive the American-English):</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">set_color</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">rgb</span><span class="p">):</span>
-  <span class="n">rgb</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">rgb</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
-  <span class="n">operate_on_bulb</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="s2">&quot;set_rgb&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">rgb</span><span class="p">))</span>
+    <span class="n">rgb</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">rgb</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+    <span class="n">operate_on_bulb</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="s2">&quot;set_rgb&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">rgb</span><span class="p">))</span>
 </code></pre></div>
 
 <p>So if I wanted to change the colour of the 1st indexed bulb to pure red, i.e. "#ff0000", I can call set_color(1, "ff0000"). The hex code "ff0000" will be translated to the integer int("ff0000", 16) -&gt; 16711680, which will then be sent over as a string.</p>

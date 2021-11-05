@@ -49,7 +49,7 @@ ul.sub-menu, ul.children { margin:0px 10px 0px 0px; }
 .thumbnail { margin:0px; padding:0px; }
 .thumbnail img { float:right; }
 
-.entry { font-size: 14px; line-height: 20px; padding: 80px; width: 50vw; }
+.entry { font-size: 14px; line-height: 20px; padding: 100px; width: 50vw; }
 .entry h2, h3, h4, h5 { margin:30px 0px 10px 0px; }
 .entry img { display:block; border:1px solid #BDBDBD !important; }
 .entry img.wp-smiley { border:0px !important; }
